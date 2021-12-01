@@ -25,6 +25,17 @@ class Person(BaseModel):
     hair_color: Optional[HairColor] = Field(default=None)
     is_married: Optional[bool] = Field(default=None)
 
+    class Config:
+            schema_extra = {
+                "example": {
+                    "first_name": "Rodrigo",
+                    "last_name": "Lopez",
+                    "age": 30,
+                    "hair_color": "black",
+                    "is_married": False
+                }
+            }
+
 
 @app.get("/")
 def home():
@@ -75,3 +86,4 @@ def update_person(
     person: Person = Body(...)
 ):
     return {person_id : person }
+
