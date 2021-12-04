@@ -1,5 +1,5 @@
 # fast_api_demo
 Demo for fast api
 
-## how to run
-uvicorn main:app --reload
+
+# this is my change of readme for main, but I did it in resquest_response_body 🤦‍♂️
