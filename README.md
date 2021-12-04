@@ -1,4 +1,9 @@
 # fast_api_demo
 Demo for fast api
 
-# this is my change of readme for main
+
+## how to run
+uvicorn main:app --reload
+
+## Changes
+this is my branch for developing purposes

@@ -1,1 +1,3 @@
 venv
+garbage.txt
+__pycache__
