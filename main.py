@@ -53,13 +53,20 @@ def home():
 
 
 # Request and Response Body
-@app.post("/person/new", response_model=Person,response_model_exclude={"password"}, status_code=status.HTTP_201_CREATED)
+@app.post(
+    "/person/new", 
+    response_model=Person,
+    response_model_exclude={"password"},
+    status_code=status.HTTP_201_CREATED,
+    tags=["persons"])
 def create_person(person: Person = Body(...)): # acces to the parameters of person
 
     return person
 
 #Validations: query parameters   
-@app.get("/person/detail")
+@app.get(
+    "/person/detail",
+    tags=["persons"])
 def show_person(
     name: Optional[str] = Query(
         None, 
@@ -78,7 +85,10 @@ def show_person(
     return {name : age}
 
 #Validations: path parameters   
-@app.get("/person/detail/{person_id}")
+@app.get(
+    "/person/detail/{person_id}",
+    tags=["persons"]
+    )
 def show_person(
     person_id: int = Path(..., gt = 0)
 ):
@@ -92,7 +102,10 @@ def show_person(
     return {person_id : "it_exist"}
 
 
-@app.put("/person/{person_id}")
+@app.put(
+    "/person/{person_id}",
+    tags=["persons"]
+    )
 def update_person(
     person_id: int = Path(
         ...,
@@ -109,7 +122,8 @@ def update_person(
 @app.post(
     path = "/login/",
     response_model=Login,
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
+    tags=["basic"]
     )
 def login(
     username : str = Form(...),
@@ -120,7 +134,8 @@ def login(
 #cookies and header parameters
 @app.post(
     path = "/contact",
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
+    tags=["contact"]
 )
 def contact(
     first_name: str = Form(
@@ -145,7 +160,8 @@ def contact(
     return user_agent
 
 @app.post(
-    path = "/post-image"
+    path = "/post-image",
+    tags=["files"]
 )
 def upload_file(
     image : UploadFile = File(...)
