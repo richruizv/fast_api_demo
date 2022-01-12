@@ -4,13 +4,14 @@ from enum import Enum
 
 #Pydantic
 from pydantic import BaseModel, Field
+from pydantic.networks import EmailStr
 
 #FastApi
 from fastapi import FastAPI
 from fastapi import status
+from fastapi import HTTPException
 from fastapi import UploadFile
 from fastapi import Body,Query,Path,Form,Header,Cookie,File
-from pydantic.networks import EmailStr
 
 app = FastAPI()
 
@@ -81,6 +82,13 @@ def show_person(
 def show_person(
     person_id: int = Path(..., gt = 0)
 ):
+    persons = [1,2,3,4,5]
+
+    if person_id not in persons:
+        raise HTTPException(
+            status.HTTP_404_NOT_FOUND,
+            detail="This person doesn't even exist!"
+        )
     return {person_id : "it_exist"}
 
 
