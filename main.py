@@ -1,14 +1,14 @@
 #Python
 from typing import Optional
-from fastapi.datastructures import Default
 from enum import Enum
+
 #Pydantic
 from pydantic import BaseModel, Field
 
 #FastApi
 from fastapi import FastAPI
 from fastapi import status
-from fastapi import Body,Query,Path,Form
+from fastapi import Body,Query,Path,Form,Header,Cookie
 from pydantic.networks import EmailStr
 
 app = FastAPI()
@@ -96,7 +96,7 @@ def update_person(
     return {person_id : person }
 
 
-
+#form request
 @app.post(
     path = "/login/",
     response_model=Login,
@@ -107,3 +107,30 @@ def login(
     password : str = Form(...)
 ):
     return Login(username=username,password="updated pass")
+
+#cookies and header parameters
+@app.post(
+    path = "/contact",
+    status_code=status.HTTP_200_OK
+)
+def contact(
+    first_name: str = Form(
+        ...,
+        max_length=20,
+        min_length=1,
+    ),
+    last_name: str = Form(
+        ...,
+        max_length=20,
+        min_length=1,
+    ),
+    email:  EmailStr = Form(...),
+    message: str = Form(
+        ...,
+        min_length=20
+    ),
+    user_agent: Optional[str] = Header(default=None),
+    ads : Optional[str] = Cookie(default=None)
+):
+
+    return user_agent
