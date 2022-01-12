@@ -8,7 +8,7 @@ from pydantic import BaseModel, Field
 #FastApi
 from fastapi import FastAPI
 from fastapi import status
-from fastapi import Body,Query,Path
+from fastapi import Body,Query,Path,Form
 from pydantic.networks import EmailStr
 
 app = FastAPI()
@@ -39,6 +39,9 @@ class Person(BaseModel):
                 }
             }
 
+class Login(BaseModel):
+    username : str = Field( ... , max_length=20 , example ="rich")
+    password : str
 
 
 
@@ -92,3 +95,15 @@ def update_person(
 ):
     return {person_id : person }
 
+
+
+@app.post(
+    path = "/login/",
+    response_model=Login,
+    status_code=status.HTTP_200_OK
+    )
+def login(
+    username : str = Form(...),
+    password : str = Form(...)
+):
+    return Login(username=username,password="updated pass")
