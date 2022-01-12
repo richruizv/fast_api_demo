@@ -8,7 +8,8 @@ from pydantic import BaseModel, Field
 #FastApi
 from fastapi import FastAPI
 from fastapi import status
-from fastapi import Body,Query,Path,Form,Header,Cookie
+from fastapi import UploadFile
+from fastapi import Body,Query,Path,Form,Header,Cookie,File
 from pydantic.networks import EmailStr
 
 app = FastAPI()
@@ -134,3 +135,15 @@ def contact(
 ):
 
     return user_agent
+
+@app.post(
+    path = "/post-image"
+)
+def upload_file(
+    image : UploadFile = File(...)
+):
+    return {
+        "Filename" : image.filename,
+        "Format" : image.content_type,
+        "Size(kb)" : round(len(image.file.read())/1024) #filesize from image object
+    }
