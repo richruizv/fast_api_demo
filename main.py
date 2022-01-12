@@ -7,6 +7,7 @@ from pydantic import BaseModel, Field
 
 #FastApi
 from fastapi import FastAPI
+from fastapi import status
 from fastapi import Body,Query,Path
 from pydantic.networks import EmailStr
 
@@ -41,13 +42,13 @@ class Person(BaseModel):
 
 
 
-@app.get("/")
+@app.get("/", status_code=status.HTTP_204_NO_CONTENT)
 def home():
     return {"Hello" : "World"}
 
 
 # Request and Response Body
-@app.post("/person/new", response_model=Person,response_model_exclude={"password"})
+@app.post("/person/new", response_model=Person,response_model_exclude={"password"}, status_code=status.HTTP_201_CREATED)
 def create_person(person: Person = Body(...)): # acces to the parameters of person
 
     return person
