@@ -78,7 +78,8 @@ def create_person(person: Person = Body(...)): # acces to the parameters of pers
 #Validations: query parameters   
 @app.get(
     "/person/detail",
-    tags=["persons"])
+    tags=["persons"],
+    deprecated=True)
 def show_person(
     name: Optional[str] = Query(
         None, 
